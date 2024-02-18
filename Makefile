@@ -22,6 +22,10 @@ migratedown:
 dropdb:
 	docker exec -it pgsql-db-1 dropdb posts
 
-.PHONY: postgres createdb dropdb migrateup migratedown
+# docs in https://github.com/sqlc-dev/sqlc/tree/v1.4.0
+sqlc:
+	sqlc generate
+
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc
 
 # If you run above a command, you must run teminal `make command_name`. Example: make postgres
