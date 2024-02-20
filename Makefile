@@ -26,6 +26,9 @@ dropdb:
 sqlc:
 	sqlc generate
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc
+test:
+	go test -v -cover ./...
+
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc test
 
 # If you run above a command, you must run teminal `make command_name`. Example: make postgres

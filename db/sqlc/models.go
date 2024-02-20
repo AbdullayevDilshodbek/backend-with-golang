@@ -19,8 +19,8 @@ type Post struct {
 }
 
 type User struct {
-	ID        int64          `json:"id"`
-	Username  sql.NullString `json:"username"`
-	Role      sql.NullString `json:"role"`
-	CreatedAt sql.NullTime   `json:"created_at"`
+	ID        int64        `json:"id"`
+	Username  string       `json:"username"`
+	Role      string       `json:"role"`
+	CreatedAt sql.NullTime `json:"created_at"`
 }
