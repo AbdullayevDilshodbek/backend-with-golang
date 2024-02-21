@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createPost = `-- name: CreatePost :one
@@ -17,10 +16,10 @@ RETURNING id, title, body, user_id, status, created_at
 `
 
 type CreatePostParams struct {
-	Title  sql.NullString `json:"title"`
-	Body   sql.NullString `json:"body"`
-	UserID int64          `json:"user_id"`
-	Status sql.NullString `json:"status"`
+	Title  string `json:"title"`
+	Body   string `json:"body"`
+	UserID int64  `json:"user_id"`
+	Status string `json:"status"`
 }
 
 func (q *Queries) CreatePost(ctx context.Context, arg CreatePostParams) (Post, error) {
@@ -73,10 +72,18 @@ func (q *Queries) GetPost(ctx context.Context, id int64) (Post, error) {
 
 const getPostsList = `-- name: GetPostsList :many
 SELECT id, title, body, user_id, status, created_at FROM posts
+ORDER BY id DESC
+LIMIT $1
+OFFSET $2
 `
 
-func (q *Queries) GetPostsList(ctx context.Context) ([]Post, error) {
-	rows, err := q.db.QueryContext(ctx, getPostsList)
+type GetPostsListParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) GetPostsList(ctx context.Context, arg GetPostsListParams) ([]Post, error) {
+	rows, err := q.db.QueryContext(ctx, getPostsList, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -113,11 +120,11 @@ RETURNING id, title, body, user_id, status, created_at
 `
 
 type UpdatePostParams struct {
-	ID     int64          `json:"id"`
-	Title  sql.NullString `json:"title"`
-	Body   sql.NullString `json:"body"`
-	UserID int64          `json:"user_id"`
-	Status sql.NullString `json:"status"`
+	ID     int64  `json:"id"`
+	Title  string `json:"title"`
+	Body   string `json:"body"`
+	UserID int64  `json:"user_id"`
+	Status string `json:"status"`
 }
 
 func (q *Queries) UpdatePost(ctx context.Context, arg UpdatePostParams) (Post, error) {

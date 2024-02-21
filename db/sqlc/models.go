@@ -9,13 +9,13 @@ import (
 )
 
 type Post struct {
-	ID    int64          `json:"id"`
-	Title sql.NullString `json:"title"`
+	ID    int64  `json:"id"`
+	Title string `json:"title"`
 	// Content of the post
-	Body      sql.NullString `json:"body"`
-	UserID    int64          `json:"user_id"`
-	Status    sql.NullString `json:"status"`
-	CreatedAt sql.NullTime   `json:"created_at"`
+	Body      string       `json:"body"`
+	UserID    int64        `json:"user_id"`
+	Status    string       `json:"status"`
+	CreatedAt sql.NullTime `json:"created_at"`
 }
 
 type User struct {

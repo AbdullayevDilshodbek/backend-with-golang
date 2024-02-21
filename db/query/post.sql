@@ -8,7 +8,10 @@ SELECT * FROM posts
 WHERE id = $1;
 
 -- name: GetPostsList :many
-SELECT * FROM posts;
+SELECT * FROM posts
+ORDER BY id DESC
+LIMIT $1
+OFFSET $2;
 
 -- name: UpdatePost :one
 UPDATE posts
